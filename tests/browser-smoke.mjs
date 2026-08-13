@@ -4,7 +4,7 @@ import { mkdir } from 'node:fs/promises';
 const playwright = await import('playwright');
 const { chromium } = playwright;
 
-const baseURL = 'http://127.0.0.1:4173';
+const baseURL = process.env.BASE_URL || 'http://127.0.0.1:4173';
 const outputDir = '/tmp/sprout-browser-qa';
 await mkdir(outputDir, { recursive: true });
 

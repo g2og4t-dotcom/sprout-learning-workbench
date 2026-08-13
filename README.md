@@ -36,6 +36,7 @@ node tests/browser-smoke.mjs
 ```
 
 如 Chrome 不在 macOS 默认路径，可设置 `CHROME_PATH`。
+对已发布网站运行时，可设置 `BASE_URL`。
 
 ## 文件结构
 
