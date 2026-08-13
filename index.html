@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#fff8ed">
+  <meta name="color-scheme" content="light">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="小芽工作台">
+  <meta name="description" content="面向幼小衔接家庭的离线学习、打卡与成长记录工具">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>小芽 · 幼小衔接工作台</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/app-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="主导航">
+      <button class="brand" data-route="today" aria-label="返回今日首页">
+        <span class="brand-mark" aria-hidden="true">🌱</span>
+        <span class="brand-copy"><b>小芽</b><small>学习工作台</small></span>
+      </button>
+      <nav class="main-nav">
+        <button class="nav-button is-active" data-route="today"><span>☀️</span><b>今日</b></button>
+        <button class="nav-button" data-route="learn"><span>🧩</span><b>学习</b></button>
+        <button class="nav-button" data-route="progress"><span>📈</span><b>成长</b></button>
+        <button class="nav-button" data-route="rewards"><span>🌼</span><b>奖励</b></button>
+        <button class="nav-button" data-route="parent"><span>🫶</span><b>家长</b></button>
+      </nav>
+      <div class="sidebar-foot">
+        <span class="flower-balance">🌼 <b id="navFlowers">0</b></span>
+        <small>每天进步一点点</small>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="pageEyebrow">今天也要开心学习</p>
+          <h1 id="pageTitle">我的今日计划</h1>
+        </div>
+        <div class="top-actions">
+          <button class="sound-toggle icon-button" id="soundToggle" aria-label="关闭语音与音效" title="语音开关">🔊</button>
+          <button class="profile-chip" data-route="parent" aria-label="打开家长设置">
+            <span id="profileAvatar">🐣</span>
+            <span><b id="profileName">小朋友</b><small id="profileClass">幼小衔接班</small></span>
+          </button>
+        </div>
+      </header>
+
+      <section class="page" id="appPage" aria-live="polite"></section>
+    </main>
+  </div>
+
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+  <div class="celebration" id="celebration" aria-hidden="true"></div>
+  <input id="importInput" type="file" accept="application/json" hidden>
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>

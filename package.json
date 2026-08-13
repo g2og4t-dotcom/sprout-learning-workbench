@@ -1,0 +1,13 @@
+{
+  "name": "sprout-learning-workbench",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/core.test.mjs",
+    "test:browser": "node tests/browser-smoke.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.55.0"
+  }
+}
