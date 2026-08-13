@@ -19,6 +19,7 @@ import {
   toggleTask,
   totalProgress
 } from './core.mjs';
+import { normalizeSpeechText, selectSpeechVoice, speechSettings } from './speech.mjs';
 
 const page = document.querySelector('#appPage');
 const pageTitle = document.querySelector('#pageTitle');
@@ -32,6 +33,17 @@ let categoryFilter = '全部';
 let answerVisible = false;
 let selectedChoice = null;
 let calendarCursor = new Date();
+let speechVoices = [];
+
+function refreshSpeechVoices() {
+  if (!('speechSynthesis' in window)) return;
+  speechVoices = window.speechSynthesis.getVoices();
+}
+
+if ('speechSynthesis' in window) {
+  refreshSpeechVoices();
+  window.speechSynthesis.addEventListener?.('voiceschanged', refreshSpeechVoices);
+}
 
 function loadState() {
   try {
@@ -124,11 +136,16 @@ function speak(text, lang = 'zh-CN') {
     toast('当前浏览器暂不支持语音朗读');
     return;
   }
+  refreshSpeechVoices();
   window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(String(text).replace(/\n/g, '，'));
+  const utterance = new SpeechSynthesisUtterance(normalizeSpeechText(text, lang));
+  const voice = selectSpeechVoice(speechVoices, lang);
+  const settings = speechSettings(lang);
   utterance.lang = lang;
-  utterance.rate = lang.startsWith('zh') ? .82 : .78;
-  utterance.pitch = 1.05;
+  if (voice) utterance.voice = voice;
+  utterance.rate = settings.rate;
+  utterance.pitch = settings.pitch;
+  utterance.volume = settings.volume;
   window.speechSynthesis.speak(utterance);
 }
 

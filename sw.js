@@ -1,10 +1,11 @@
-const CACHE_NAME = 'sprout-workbench-v1';
+const CACHE_NAME = 'sprout-workbench-v2';
 const APP_SHELL = [
   './',
   './index.html',
   './styles.css',
   './app.mjs',
   './core.mjs',
+  './speech.mjs',
   './content.mjs',
   './manifest.webmanifest',
   './icons/app-icon.svg',
