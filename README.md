@@ -1,8 +1,8 @@
-# 小芽 · 幼小衔接工作台
+# 小芽 · 小学学习工作台
 
 在线使用：<https://g2og4t-dotcom.github.io/sprout-learning-workbench/>
 
-面向 5–7 岁孩子和家长的本地优先学习工作台。覆盖识字、拼音、数学、英语、科普、古诗和逻辑七个模块，包含点读、互动题、掌握进度、每日任务、打卡、小红花奖励和本地备份。
+面向启蒙及小学一、二年级孩子和家长的本地优先学习工作台。可按年级切换语文基础、阅读表达、数学计算、数学应用、英语、科学和逻辑思维七个模块，包含点读、互动题、答案解析、掌握进度、每日任务、打卡、小红花奖励和本地备份。
 
 ## 本地打开
 
@@ -26,7 +26,7 @@ python3 -m http.server 4173
 核心逻辑测试：
 
 ```sh
-node --test tests/core.test.mjs
+npm test
 ```
 
 浏览器冒烟测试需要先在 4173 端口启动静态服务，并安装 Google Chrome：
@@ -44,6 +44,7 @@ node tests/browser-smoke.mjs
 - `styles.css`：Mac、iPad、iPhone 响应式界面
 - `app.mjs`：页面和交互逻辑
 - `core.mjs`：可测试的数据与规则
-- `content.mjs`：七科学习内容
+- `content.mjs`：启蒙内容与年级课程索引
+- `school-content.mjs`：小学一、二年级通用能力题库
 - `manifest.webmanifest`、`sw.js`：安装和离线能力
 - `tests/`：核心与浏览器测试

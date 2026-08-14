@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sprout-workbench-v2';
+const CACHE_NAME = 'sprout-workbench-v3';
 const APP_SHELL = [
   './',
   './index.html',
@@ -7,6 +7,7 @@ const APP_SHELL = [
   './core.mjs',
   './speech.mjs',
   './content.mjs',
+  './school-content.mjs',
   './manifest.webmanifest',
   './icons/app-icon.svg',
   './icons/apple-touch-icon.png'

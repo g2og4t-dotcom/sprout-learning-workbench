@@ -100,6 +100,24 @@ button:focus-visible, input:focus-visible, select:focus-visible {
 .profile-chip small { color: var(--muted); font-size: .74rem; margin-top: 2px; }
 .page { max-width: 1240px; margin: 0 auto; }
 
+.grade-switcher {
+  display: grid;
+  grid-template-columns: auto auto minmax(160px, 1fr);
+  align-items: center;
+  gap: 13px;
+  margin: 0 0 20px;
+  padding: 10px 13px;
+  border: 1px solid var(--line);
+  border-radius: 19px;
+  background: rgba(255, 254, 251, .88);
+  box-shadow: 0 5px 16px rgba(102,78,45,.05);
+}
+.grade-switcher > span { color: var(--muted); font-size: .78rem; font-weight: 750; white-space: nowrap; }
+.grade-switcher > div { display: flex; gap: 5px; padding: 4px; border-radius: 14px; background: #f4eddf; }
+.grade-switcher button { min-height: 36px; padding: 0 14px; border: 0; border-radius: 11px; background: transparent; color: var(--muted); cursor: pointer; font-size: .82rem; font-weight: 750; white-space: nowrap; }
+.grade-switcher button.is-active { color: white; background: var(--green); box-shadow: 0 5px 12px rgba(63,136,101,.2); }
+.grade-switcher small { color: var(--muted); text-align: right; }
+
 .hero-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 20px; }
 .welcome-card {
   min-height: 220px;
@@ -200,6 +218,7 @@ button:focus-visible, input:focus-visible, select:focus-visible {
 .choice-button { min-height: 54px; border-radius: 17px; border: 1px solid var(--line); background: white; cursor: pointer; font-weight: 800; font-size: 1.1rem; }
 .choice-button.is-correct { background: #e6f6e6; border-color: #8fc59f; color: #2d704d; }
 .choice-button.is-wrong { background: #fff1e7; border-color: #e5a687; color: #95503b; }
+.answer-toggle { min-height: 44px; margin: 18px auto 0; padding: 0 16px; border: 1px solid #e7cf8c; border-radius: 14px; background: #fff6d9; color: #765820; cursor: pointer; font-weight: 750; }
 .study-actions { display: grid; grid-template-columns: 1fr auto auto 1fr; gap: 10px; align-items: center; }
 .study-actions .prev { justify-self: start; }
 .study-actions .next { justify-self: end; }
@@ -302,12 +321,18 @@ button:focus-visible, input:focus-visible, select:focus-visible {
   .subject-grid, .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .progress-grid, .parent-grid { grid-template-columns: 1fr; }
   .reward-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grade-switcher { grid-template-columns: auto 1fr; }
+  .grade-switcher small { grid-column: 1 / -1; text-align: left; padding: 0 3px 2px; }
 }
 
 @media (max-width: 540px) {
   .topbar { align-items: center; gap: 10px; }
   .topbar h1 { font-size: 1.45rem; }
   .eyebrow { font-size: .74rem; }
+  .grade-switcher { grid-template-columns: 1fr; gap: 8px; padding: 11px; }
+  .grade-switcher > span { display: none; }
+  .grade-switcher > div { width: 100%; }
+  .grade-switcher button { flex: 1; padding: 0 8px; }
   .welcome-card { min-height: 248px; padding: 24px 21px; }
   .welcome-copy { max-width: 76%; }
   .welcome-copy h2 { font-size: 1.45rem; }

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { allCards } from '../content.mjs';
+import { allCards, getSubjects } from '../content.mjs';
 import {
   calculateStreak,
   cardProgress,
@@ -23,6 +23,7 @@ import {
 test('default state includes safe local-first defaults', () => {
   const state = createDefaultState('2026-08-13');
   assert.equal(state.flowers, 0);
+  assert.equal(state.profile.grade, 'grade1');
   assert.equal(state.settings.dailyGoal, 5);
   assert.equal(state.dailyTaskDate, '2026-08-13');
   assert.ok(state.rewards.length >= 3);
@@ -49,10 +50,11 @@ test('mastery gives one flower only once even after unmastering', () => {
 
 test('subject and total progress report mastered cards', () => {
   let state = createDefaultState();
-  state = setCardMastered(state, 'literacy-sun', true).state;
-  state = setCardMastered(state, 'math-add-3', true).state;
-  assert.equal(cardProgress(state, 'literacy').mastered, 1);
+  state = setCardMastered(state, 'g1-cn-pinyin', true).state;
+  state = setCardMastered(state, 'g1-math-add', true).state;
+  assert.equal(cardProgress(state, 'g1-chinese').mastered, 1);
   assert.equal(totalProgress(state).mastered, 2);
+  assert.equal(totalProgress(state).total, getSubjects('grade1').flatMap((subject) => subject.cards).length);
 });
 
 test('task reward cannot be farmed by toggling completion', () => {
@@ -67,10 +69,11 @@ test('task reward cannot be farmed by toggling completion', () => {
 });
 
 test('daily study task completes automatically at configured goal', () => {
-  let state = createDefaultState('2026-08-13');
+  const today = localDayKey();
+  let state = createDefaultState(today);
   state.settings.dailyGoal = 2;
-  state = markCardViewed(state, allCards[0].id, '2026-08-13');
-  state = markCardViewed(state, allCards[1].id, '2026-08-13');
+  state = markCardViewed(state, allCards[0].id, today);
+  state = markCardViewed(state, allCards[1].id, today);
   assert.equal(taskCompletion(state).completed, 1);
 });
 

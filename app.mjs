@@ -1,4 +1,4 @@
-import { allCards, defaultRewards, findSubject, subjects } from './content.mjs';
+import { findSubject, getSubjects, gradeLevels } from './content.mjs';
 import {
   STORAGE_KEY,
   allTasksForState,
@@ -34,6 +34,10 @@ let answerVisible = false;
 let selectedChoice = null;
 let calendarCursor = new Date();
 let speechVoices = [];
+
+const activeGrade = () => gradeLevels.find((grade) => grade.id === state.profile.grade) || gradeLevels[1];
+const activeSubjects = () => getSubjects(state.profile.grade);
+const activeSubject = (subjectId) => findSubject(subjectId, state.profile.grade);
 
 function refreshSpeechVoices() {
   if (!('speechSynthesis' in window)) return;
@@ -72,7 +76,7 @@ function ensureCurrentDay() {
 function syncChrome() {
   document.querySelector('#navFlowers').textContent = state.flowers;
   document.querySelector('#profileName').textContent = state.profile.name;
-  document.querySelector('#profileClass').textContent = state.profile.className;
+  document.querySelector('#profileClass').textContent = activeGrade().label;
   document.querySelector('#profileAvatar').textContent = state.profile.avatar;
   soundToggle.textContent = state.settings.sound ? '🔊' : '🔇';
   soundToggle.setAttribute('aria-label', state.settings.sound ? '关闭语音与音效' : '打开语音与音效');
@@ -149,8 +153,16 @@ function speak(text, lang = 'zh-CN') {
   window.speechSynthesis.speak(utterance);
 }
 
-function subjectTiles(limit = subjects.length) {
-  return subjects.slice(0, limit).map((subject) => {
+function gradeSwitcher() {
+  return `<div class="grade-switcher" role="group" aria-label="选择学习阶段">
+    <span>学习阶段</span>
+    <div>${gradeLevels.map((grade) => `<button class="${grade.id === state.profile.grade ? 'is-active' : ''}" data-grade="${grade.id}" aria-pressed="${grade.id === state.profile.grade}">${grade.shortLabel}</button>`).join('')}</div>
+    <small>${activeGrade().description} · 通用能力版</small>
+  </div>`;
+}
+
+function subjectTiles(limit = activeSubjects().length) {
+  return activeSubjects().slice(0, limit).map((subject) => {
     const progress = cardProgress(state, subject.id);
     return `
       <button class="subject-tile" data-open-subject="${subject.id}" style="--tile-bg:${subject.soft};--tile-color:${subject.color};--tile-line:${subject.color}33">
@@ -164,7 +176,7 @@ function subjectTiles(limit = subjects.length) {
 }
 
 function todayView() {
-  setHeading('我的今日计划', '今天也要开心学习');
+  setHeading('我的今日计划', `${activeGrade().label} · 今天也要开心学习`);
   const learned = studyCount(state);
   const overall = totalProgress(state);
   const streak = calculateStreak(state.checkins);
@@ -172,6 +184,7 @@ function todayView() {
   const tasks = allTasksForState(state);
   const checkedIn = Boolean(state.checkins[localDayKey()]);
   page.innerHTML = `
+    ${gradeSwitcher()}
     <div class="hero-grid">
       <article class="welcome-card">
         <div class="welcome-copy">
@@ -208,9 +221,10 @@ function todayView() {
 }
 
 function learnView() {
-  setHeading('七彩乐园', '选择一个今天感兴趣的主题');
+  setHeading(`${activeGrade().label}学习`, '选择一个今天感兴趣的主题');
   const total = totalProgress(state);
   page.innerHTML = `
+    ${gradeSwitcher()}
     <div class="learning-header">
       <div><h2 style="margin:0 0 5px">从好奇心出发</h2><p style="margin:0;color:var(--muted)">每张卡片都可以点读，学会后会放进你的成长册。</p></div>
       <div class="learning-summary"><span>总进度</span><strong>${total.mastered}/${total.total}</strong><span>🌼 ${state.flowers}</span></div>
@@ -219,7 +233,7 @@ function learnView() {
 }
 
 function subjectView(subjectId) {
-  const subject = findSubject(subjectId);
+  const subject = activeSubject(subjectId);
   if (!subject) return routeTo('learn');
   setHeading(subject.name, subject.description);
   const categories = ['全部', ...new Set(subject.cards.map((card) => card.category))];
@@ -227,7 +241,7 @@ function subjectView(subjectId) {
   const progress = cardProgress(state, subject.id);
   page.innerHTML = `
     <div class="learning-header">
-      <div><button class="text-button" data-route="learn">← 返回七彩乐园</button><p style="margin:0;color:var(--muted)">${subject.icon} 已掌握 ${progress.mastered}/${progress.total} 张卡片</p></div>
+      <div><button class="text-button" data-route="learn">← 返回${activeGrade().label}学习</button><p style="margin:0;color:var(--muted)">${subject.icon} 已掌握 ${progress.mastered}/${progress.total} 张卡片</p></div>
       <button class="primary-button" data-start-subject="${subject.id}">从头开始学习</button>
     </div>
     <div class="category-chips">${categories.map((category) => `<button class="chip ${category === categoryFilter ? 'is-active' : ''}" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>`).join('')}</div>
@@ -240,7 +254,7 @@ function subjectView(subjectId) {
 }
 
 function studyView(subjectId, cardId) {
-  const subject = findSubject(subjectId);
+  const subject = activeSubject(subjectId);
   if (!subject) return routeTo('learn');
   const index = Math.max(0, subject.cards.findIndex((card) => card.id === cardId));
   const card = subject.cards[index];
@@ -259,6 +273,7 @@ function studyView(subjectId, cardId) {
             <h2 class="study-prompt ${isLong ? 'is-long' : ''}">${escapeHtml(card.prompt)}</h2>
             ${card.pinyin ? `<p class="study-pinyin">${escapeHtml(card.pinyin)}</p>` : ''}
             ${card.choices ? `<div class="choice-grid">${card.choices.map((choice) => `<button class="choice-button ${selectedChoice === choice ? (choice === card.answer ? 'is-correct' : 'is-wrong') : ''}" data-answer-choice="${escapeHtml(choice)}">${escapeHtml(choice)}</button>`).join('')}</div>` : ''}
+            <button class="answer-toggle" id="toggleAnswer">${answerVisible ? '收起答案' : card.choices ? '💡 看答案与解析' : '💡 想好了，看答案'}</button>
             ${answerVisible ? `<div class="answer-box"><strong>${escapeHtml(card.answer)}</strong><p>${escapeHtml(card.detail || '')}${card.story ? `\n${escapeHtml(card.story)}` : ''}</p></div>` : ''}
           </div>
         </div>
@@ -277,7 +292,7 @@ function studyView(subjectId, cardId) {
 }
 
 function progressView() {
-  setHeading('我的成长册', '看见每一天积累起来的进步');
+  setHeading('我的成长册', `${activeGrade().label} · 看见每一天的进步`);
   const overall = totalProgress(state);
   const streak = calculateStreak(state.checkins);
   const year = calendarCursor.getFullYear();
@@ -292,7 +307,7 @@ function progressView() {
           <div><h3>${overall.mastered} 张已经掌握</h3><p style="color:var(--muted);line-height:1.7">你已经浏览了 ${overall.viewed} 张知识卡。慢慢来，每一次重复都会让记忆更牢固。</p><button class="primary-button" data-route="learn">继续学习</button></div>
         </div>
         <div class="section-head"><div><h2>各科学习进度</h2></div></div>
-        <div class="subject-progress-list">${subjects.map((subject) => {
+        <div class="subject-progress-list">${activeSubjects().map((subject) => {
           const progress = cardProgress(state, subject.id);
           return `<div class="progress-row"><span class="progress-row-name"><span>${subject.icon}</span>${subject.name}</span><span class="progress-track"><i style="width:${progress.percent}%;background:${subject.color}"></i></span><small>${progress.mastered}/${progress.total}</small></div>`;
         }).join('')}</div>
@@ -326,6 +341,7 @@ function parentView() {
           <div class="form-grid">
             <div class="field"><label for="childName">孩子称呼</label><input id="childName" name="name" maxlength="10" value="${escapeHtml(state.profile.name)}"></div>
             <div class="field"><label for="childClass">班级或阶段</label><input id="childClass" name="className" maxlength="16" value="${escapeHtml(state.profile.className)}"></div>
+            <div class="field"><label for="childGrade">学习年级</label><select id="childGrade" name="grade">${gradeLevels.map((grade) => `<option value="${grade.id}" ${grade.id === state.profile.grade ? 'selected' : ''}>${grade.label}</option>`).join('')}</select></div>
             <div class="field"><label for="childAvatar">头像</label><select id="childAvatar" name="avatar">${['🐣','🐰','🐼','🦊','🐯','🐨'].map((avatar) => `<option ${avatar === state.profile.avatar ? 'selected' : ''}>${avatar}</option>`).join('')}</select></div>
             <div class="field"><label for="dailyGoal">每日卡片目标</label><input id="dailyGoal" name="dailyGoal" type="number" min="1" max="20" value="${state.settings.dailyGoal}"></div>
             <div class="field"><label for="textScale">文字大小</label><select id="textScale" name="textScale"><option value="small" ${state.settings.textScale === 'small' ? 'selected' : ''}>较小</option><option value="normal" ${state.settings.textScale === 'normal' ? 'selected' : ''}>标准</option><option value="large" ${state.settings.textScale === 'large' ? 'selected' : ''}>较大</option></select></div>
@@ -372,16 +388,23 @@ function render() {
 document.addEventListener('click', (event) => {
   const target = event.target.closest('button');
   if (!target) return;
+  if (target.dataset.grade) {
+    state.profile.grade = target.dataset.grade;
+    categoryFilter = '全部';
+    saveState(state);
+    routeTo('today');
+    return toast(`已切换到${activeGrade().label}`);
+  }
   if (target.dataset.route) return routeTo(target.dataset.route);
   if (target.dataset.openSubject) return routeTo('subject', { subjectId: target.dataset.openSubject });
   if (target.dataset.startSubject) {
-    const subject = findSubject(target.dataset.startSubject);
+    const subject = activeSubject(target.dataset.startSubject);
     return routeTo('study', { subjectId: subject.id, cardId: subject.cards[0].id });
   }
   if (target.dataset.studyCard) return routeTo('study', { subjectId: target.dataset.subject, cardId: target.dataset.studyCard });
   if (target.dataset.category) { categoryFilter = target.dataset.category; return render(); }
   if (target.dataset.stepCard) {
-    const subject = findSubject(route.subjectId);
+    const subject = activeSubject(route.subjectId);
     const index = subject.cards.findIndex((card) => card.id === route.cardId);
     const nextIndex = index + Number(target.dataset.stepCard);
     if (nextIndex >= subject.cards.length) {
@@ -390,9 +413,10 @@ document.addEventListener('click', (event) => {
     if (nextIndex >= 0) return routeTo('study', { subjectId: subject.id, cardId: subject.cards[nextIndex].id });
   }
   if (target.id === 'speakCard') {
-    const subject = findSubject(route.subjectId); const card = subject.cards.find((item) => item.id === route.cardId);
+    const subject = activeSubject(route.subjectId); const card = subject.cards.find((item) => item.id === route.cardId);
     return speak(card.speak || `${card.prompt}。${card.answer}`, card.lang || 'zh-CN');
   }
+  if (target.id === 'toggleAnswer') { answerVisible = !answerVisible; return render(); }
   if (target.id === 'masterCard') {
     const cardId = route.cardId; const mastered = !state.mastered[cardId]; const result = setCardMastered(state, cardId, mastered);
     saveState(result.state); if (result.earned) { flowerBurst(); toast('学会一张，获得 1 朵小红花 🌼'); } else toast('已移回“学习中”');
@@ -400,7 +424,7 @@ document.addEventListener('click', (event) => {
   }
   if (target.dataset.answerChoice) {
     if (selectedChoice !== null) return;
-    const subject = findSubject(route.subjectId); const card = subject.cards.find((item) => item.id === route.cardId); const choice = target.dataset.answerChoice;
+    const subject = activeSubject(route.subjectId); const card = subject.cards.find((item) => item.id === route.cardId); const choice = target.dataset.answerChoice;
     selectedChoice = choice; answerVisible = true; saveState(recordAnswer(state, card.id, choice === card.answer));
     toast(choice === card.answer ? '答对啦，真会观察！' : '很接近了，看看提示再试一次');
     if (choice === card.answer) flowerBurst(8);
@@ -434,7 +458,7 @@ document.addEventListener('submit', (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.target));
   if (event.target.id === 'profileForm') {
-    state.profile = { name: String(data.name).trim() || '小朋友', className: String(data.className).trim() || '幼小衔接班', avatar: data.avatar };
+    state.profile = { name: String(data.name).trim() || '小朋友', className: String(data.className).trim() || '一班', avatar: data.avatar, grade: gradeLevels.some((grade) => grade.id === data.grade) ? data.grade : 'grade1' };
     state.settings.dailyGoal = Math.min(20, Math.max(1, Number(data.dailyGoal) || 5));
     state.settings.textScale = data.textScale; state.settings.reduceMotion = data.reduceMotion === 'true';
     saveState(state); toast('设置已经保存'); return render();

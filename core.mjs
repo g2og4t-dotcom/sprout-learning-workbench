@@ -1,4 +1,4 @@
-import { allCards, defaultRewards, defaultTasks, subjects } from './content.mjs';
+import { defaultRewards, defaultTasks, findSubject, getSubjects, gradeLevels } from './content.mjs';
 
 export const APP_VERSION = 1;
 export const STORAGE_KEY = 'sprout-workbench:v1';
@@ -13,7 +13,7 @@ export function localDayKey(date = new Date()) {
 export function createDefaultState(today = localDayKey()) {
   return {
     version: APP_VERSION,
-    profile: { name: '小朋友', className: '幼小衔接班', avatar: '🐣' },
+    profile: { name: '小朋友', className: '一班', avatar: '🐣', grade: 'grade1' },
     flowers: 0,
     mastered: {},
     views: {},
@@ -62,6 +62,8 @@ export function normalizeState(raw, today = localDayKey()) {
     next.dailyTasks = { ...base.dailyTasks, ...(raw.dailyTasks || {}) };
   }
   next.flowers = Math.max(0, Number(next.flowers) || 0);
+  if (!gradeLevels.some((grade) => grade.id === next.profile.grade)) next.profile.grade = 'grade1';
+  if (!raw.profile?.grade && next.profile.className === '幼小衔接班') next.profile.className = '一班';
   next.settings.dailyGoal = Math.min(20, Math.max(1, Number(next.settings.dailyGoal) || 5));
   return next;
 }
@@ -71,7 +73,7 @@ export function rollStateToDay(state, today = localDayKey()) {
 }
 
 export function cardProgress(state, subjectId) {
-  const subject = subjects.find((item) => item.id === subjectId);
+  const subject = findSubject(subjectId, state.profile?.grade);
   if (!subject) return { mastered: 0, viewed: 0, total: 0, percent: 0 };
   const mastered = subject.cards.filter((card) => state.mastered[card.id]).length;
   const viewed = subject.cards.filter((card) => state.views[card.id]).length;
@@ -79,9 +81,10 @@ export function cardProgress(state, subjectId) {
 }
 
 export function totalProgress(state) {
-  const mastered = allCards.filter((card) => state.mastered[card.id]).length;
-  const viewed = allCards.filter((card) => state.views[card.id]).length;
-  return { mastered, viewed, total: allCards.length, percent: Math.round(mastered / allCards.length * 100) };
+  const gradeCards = getSubjects(state.profile?.grade).flatMap((subject) => subject.cards);
+  const mastered = gradeCards.filter((card) => state.mastered[card.id]).length;
+  const viewed = gradeCards.filter((card) => state.views[card.id]).length;
+  return { mastered, viewed, total: gradeCards.length, percent: gradeCards.length ? Math.round(mastered / gradeCards.length * 100) : 0 };
 }
 
 export function studyCount(state, day = localDayKey()) {
@@ -204,8 +207,9 @@ export function safeImportedState(data) {
   const imported = normalizeState(data);
   imported.profile = {
     name: safeText(data.profile?.name, '小朋友', 10) || '小朋友',
-    className: safeText(data.profile?.className, '幼小衔接班', 16) || '幼小衔接班',
-    avatar: safeIcon(data.profile?.avatar, '🐣')
+    className: safeText(data.profile?.className, '一班', 16) || '一班',
+    avatar: safeIcon(data.profile?.avatar, '🐣'),
+    grade: gradeLevels.some((grade) => grade.id === data.profile?.grade) ? data.profile.grade : 'grade1'
   };
   imported.customTasks = (Array.isArray(data.customTasks) ? data.customTasks : []).slice(0, 30).map((task, index) => ({
     id: safeId(task?.id, `task-import-${index}`),

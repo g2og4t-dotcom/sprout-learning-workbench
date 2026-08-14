@@ -1,4 +1,6 @@
-export const subjects = [
+import { grade1Subjects, grade2Subjects } from './school-content.mjs';
+
+export const foundationSubjects = [
   {
     id: 'literacy', name: '识字乐园', icon: '✏️', color: '#f3a45b', soft: '#fff1df',
     description: '认汉字、读拼音、会组词',
@@ -111,5 +113,19 @@ export const defaultRewards = [
   { id: 'reward-outing', name: '周末家庭小出游', icon: '🚲', cost: 20 }
 ];
 
-export const findSubject = (subjectId) => subjects.find((subject) => subject.id === subjectId);
-export const allCards = subjects.flatMap((subject) => subject.cards.map((card) => ({ ...card, subjectId: subject.id })));
+export const gradeLevels = [
+  { id: 'foundation', label: '启蒙', shortLabel: '启蒙', description: '基础认知与入学准备' },
+  { id: 'grade1', label: '一年级', shortLabel: '一年级', description: '语文、数学与综合能力' },
+  { id: 'grade2', label: '二年级', shortLabel: '二年级', description: '语文、数学与综合能力' }
+];
+
+export const subjectsByGrade = {
+  foundation: foundationSubjects,
+  grade1: grade1Subjects,
+  grade2: grade2Subjects
+};
+
+export const getSubjects = (grade = 'grade1') => subjectsByGrade[grade] || subjectsByGrade.grade1;
+export const findSubject = (subjectId, grade) => getSubjects(grade).find((subject) => subject.id === subjectId)
+  || Object.values(subjectsByGrade).flat().find((subject) => subject.id === subjectId);
+export const allCards = Object.entries(subjectsByGrade).flatMap(([grade, subjects]) => subjects.flatMap((subject) => subject.cards.map((card) => ({ ...card, grade, subjectId: subject.id }))));

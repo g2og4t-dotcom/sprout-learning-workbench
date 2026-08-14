@@ -26,23 +26,36 @@ async function runViewport(name, viewport) {
   await page.goto(baseURL, { waitUntil: 'networkidle' });
   await page.screenshot({ path: `${outputDir}/${name}-today.png`, fullPage: true });
   assert.match(await page.locator('h1').textContent(), /今日计划/);
+  assert.equal(await page.locator('[data-grade]').count(), 3);
+  assert.equal(await page.locator('[data-grade="grade1"]').getAttribute('aria-pressed'), 'true');
   assert.equal(await page.locator('.subject-tile').count(), 4);
   assert.ok(await page.locator('body').evaluate((element) => element.scrollWidth <= element.clientWidth + 1), `${name}: body overflows horizontally`);
 
   await page.locator('[data-route="learn"]').first().click();
   assert.equal(await page.locator('.subject-tile').count(), 7);
-  await page.locator('[data-open-subject="literacy"]').click();
+  await page.locator('[data-open-subject="g1-chinese"]').click();
   assert.equal(await page.locator('.card-preview').count(), 8);
-  await page.locator('[data-study-card="literacy-sun"]').click();
-  assert.match(await page.locator('.study-prompt').textContent(), /日/);
+  await page.locator('[data-study-card="g1-cn-pinyin"]').click();
+  assert.match(await page.locator('.study-prompt').textContent(), /小鸟/);
+  await page.locator('#toggleAnswer').click();
+  assert.match(await page.locator('.answer-box').textContent(), /xiǎo niǎo/);
+  await page.screenshot({ path: `${outputDir}/${name}-study.png`, fullPage: true });
   await page.locator('#masterCard').click();
   assert.match(await page.locator('#masterCard').textContent(), /已学会/);
   assert.equal(await page.locator('#navFlowers').textContent(), '1');
   await page.reload({ waitUntil: 'networkidle' });
   assert.equal(await page.locator('#navFlowers').textContent(), '1');
   await page.locator('[data-route="learn"]').first().click();
-  await page.locator('[data-open-subject="literacy"]').click();
-  assert.equal(await page.locator('[data-study-card="literacy-sun"]').getAttribute('class'), 'card-preview is-mastered');
+  await page.locator('[data-open-subject="g1-chinese"]').click();
+  assert.equal(await page.locator('[data-study-card="g1-cn-pinyin"]').getAttribute('class'), 'card-preview is-mastered');
+
+  await page.locator('.nav-button[data-route="today"]').click();
+  await page.locator('[data-grade="grade2"]').click();
+  assert.equal(await page.locator('[data-grade="grade2"]').getAttribute('aria-pressed'), 'true');
+  await page.locator('[data-route="learn"]').first().click();
+  await page.locator('[data-open-subject="g2-math"]').click();
+  assert.equal(await page.locator('.card-preview').count(), 8);
+  assert.match(await page.locator('.card-preview').first().textContent(), /47 \+ 36/);
 
   await page.locator('[data-route="progress"]').first().click();
   assert.match(await page.locator('h1').textContent(), /成长册/);
