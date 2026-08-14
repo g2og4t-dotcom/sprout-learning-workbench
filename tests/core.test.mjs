@@ -10,6 +10,7 @@ import {
   markCardViewed,
   monthCalendar,
   normalizeState,
+  recordAnswer,
   rollStateToDay,
   redeemReward,
   safeImportedState,
@@ -46,6 +47,12 @@ test('mastery gives one flower only once even after unmastering', () => {
   result = setCardMastered(result.state, allCards[0].id, true);
   assert.equal(result.earned, 0);
   assert.equal(result.state.flowers, 1);
+});
+
+test('answering a card correctly does not award a flower', () => {
+  let state = createDefaultState();
+  state = recordAnswer(state, allCards[0].id, true);
+  assert.equal(state.flowers, 0);
 });
 
 test('subject and total progress report mastered cards', () => {

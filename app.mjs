@@ -426,8 +426,7 @@ document.addEventListener('click', (event) => {
     if (selectedChoice !== null) return;
     const subject = activeSubject(route.subjectId); const card = subject.cards.find((item) => item.id === route.cardId); const choice = target.dataset.answerChoice;
     selectedChoice = choice; answerVisible = true; saveState(recordAnswer(state, card.id, choice === card.answer));
-    toast(choice === card.answer ? '答对啦，真会观察！' : '很接近了，看看提示再试一次');
-    if (choice === card.answer) flowerBurst(8);
+    toast(choice === card.answer ? '答对啦！点“我学会了”可获得 1 朵小红花' : '很接近了，看看提示再试一次');
     return render();
   }
   if (target.dataset.toggleTask) {
