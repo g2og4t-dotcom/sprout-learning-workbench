@@ -114,7 +114,7 @@ export const defaultRewards = [
 ];
 
 export const gradeLevels = [
-  { id: 'foundation', label: '启蒙', shortLabel: '启蒙', description: '基础认知与入学准备' },
+  { id: 'foundation', label: '幼小衔接', shortLabel: '幼小衔接', description: '基础认知与入学准备' },
   { id: 'grade1', label: '一年级', shortLabel: '一年级', description: '语文、数学与综合能力' },
   { id: 'grade2', label: '二年级', shortLabel: '二年级', description: '语文、数学与综合能力' }
 ];
