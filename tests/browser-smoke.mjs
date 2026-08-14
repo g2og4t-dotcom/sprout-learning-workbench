@@ -34,7 +34,7 @@ async function runViewport(name, viewport) {
   await page.locator('[data-route="learn"]').first().click();
   assert.equal(await page.locator('.subject-tile').count(), 7);
   await page.locator('[data-open-subject="g1-chinese"]').click();
-  assert.equal(await page.locator('.card-preview').count(), 8);
+  assert.equal(await page.locator('.card-preview').count(), 14);
   await page.locator('[data-study-card="g1-cn-pinyin"]').click();
   assert.match(await page.locator('.study-prompt').textContent(), /小鸟/);
   await page.locator('#toggleAnswer').click();

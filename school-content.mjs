@@ -9,7 +9,13 @@ export const grade1Subjects = [
     { id: 'g1-cn-word-choice', category: '字词', prompt: '选择正确的字：我（　）在椅子上。', image: '🪑', answer: '坐', detail: '“坐”表示动作；“座”常表示座位或量词。', choices: ['坐', '座', '做'] },
     { id: 'g1-cn-punctuation', category: '句子', prompt: '“你今天开心吗（　）”应填什么标点？', image: '❓', answer: '？', detail: '这句话是在提问，句末要用问号。', choices: ['。', '！', '？'] },
     { id: 'g1-cn-similar', category: '汉字', prompt: '选字填空：小明走（　）教室。', image: '🏫', answer: '进', detail: '“进”表示从外面到里面；“近”表示距离短。', choices: ['进', '近', '尽'] },
-    { id: 'g1-cn-order', category: '表达', prompt: '把词语排成通顺的句子：\n我们／去／公园／一起', image: '✍️', answer: '我们一起去公园。', detail: '先说“谁”，再说“怎么做”和“去哪里”。' }
+    { id: 'g1-cn-order', category: '表达', prompt: '把词语排成通顺的句子：\n我们／去／公园／一起', image: '✍️', answer: '我们一起去公园。', detail: '先说“谁”，再说“怎么做”和“去哪里”。' },
+    { id: 'g1-cn-tone', category: '一上·拼音', prompt: '“mā ma”中第一个“妈”读几声？', image: '👩', answer: '一声', detail: '第一个“妈”标一声 mā。', choices: ['一声', '二声', '三声'] },
+    { id: 'g1-cn-baba', category: '一上·拼音', prompt: '“爸爸”的正确拼音是哪一个？', image: '👨', answer: 'bà ba', detail: '“爸”读四声，两个音节都标四声。', choices: ['bá ba', 'bà ba', 'bā ba'] },
+    { id: 'g1-cn-qiche', category: '一上·拼音', prompt: '“qí chē”拼出来是哪个词？', image: '🚲', answer: '骑车', detail: 'qí 是二声，chē 是一声，合起来读“骑车”。', choices: ['汽车', '骑车', '气球'] },
+    { id: 'g1-cn-char-three', category: '一上·识字', prompt: '“一二三四五”中表示 3 的字是哪个？', image: '🔢', answer: '三', detail: '“三”表示数量 3。', choices: ['二', '三', '四'] },
+    { id: 'g1-cn-sunny', category: '一上·识字', prompt: '选字填空：雨停了，天（　）了。', image: '🌤️', answer: '晴', detail: '“晴”和太阳有关，表示天空无云；三点水的“清”表示水很清。', choices: ['睛', '晴', '清'] },
+    { id: 'g1-cn-sentence', category: '一上·句子', prompt: '连词成句：\n我／是／小学生', image: '🏫', answer: '我是小学生。', detail: '“我”在前，“是”连接后面的身份。' }
   ]),
   subject('g1-reading', '阅读表达', '🌿', '#6f9b67', '#edf7e9', '读短文、找信息、说完整话', [
     { id: 'g1-read-spring', category: '信息提取', prompt: '春天来了，柳树长出嫩绿的叶子，燕子从南方飞回来。\n短文写了哪个季节？', image: '🌱', answer: '春天', detail: '“嫩绿的叶子”和“燕子飞回来”都是春天的特点。', choices: ['春天', '秋天', '冬天'] },
@@ -19,7 +25,13 @@ export const grade1Subjects = [
     { id: 'g1-read-title', category: '主题', prompt: '小猫每天给窗台上的花浇水。过了些日子，花开了，红得像火。\n选一个合适的题目。', image: '🌺', answer: '小猫养花', detail: '题目要能概括短文主要写的事情。', choices: ['小猫养花', '红色的火', '下雨了'] },
     { id: 'g1-read-why', category: '原因', prompt: '天空下起大雨，小红打开雨伞，小心地走回家。\n小红为什么打伞？', image: '☔️', answer: '因为下大雨了。', detail: '用“因为……所以……”可以把原因说完整。' },
     { id: 'g1-read-complete', category: '句子', prompt: '把句子补充完整：\n放学后，我……', image: '🎒', answer: '示例：放学后，我先完成作业。', detail: '句子只要表达完整、通顺就可以，答案不唯一。' },
-    { id: 'g1-read-imagine', category: '想象', prompt: '如果你是一朵小云，你想飘到哪里？为什么？', image: '☁️', answer: '示例：我想飘到大海上，因为我想看蓝蓝的海水。', detail: '说清“去哪里”和“为仈么”，就是完整的回答。' }
+    { id: 'g1-read-imagine', category: '想象', prompt: '如果你是一朵小云，你想飘到哪里？为什么？', image: '☁️', answer: '示例：我想飘到大海上，因为我想看蓝蓝的海水。', detail: '说清“去哪里”和“为仈么”，就是完整的回答。' },
+    { id: 'g1-read-autumn', category: '一上·课文', prompt: '天气凉了，树叶黄了，一片片叶子从树上落下来。\n这段话写的是哪个季节？', image: '🍂', answer: '秋天', detail: '天气变凉、树叶变黄并落下，都是秋天的特点。', choices: ['春天', '夏天', '秋天'] },
+    { id: 'g1-read-jiangnan', category: '一上·课文', prompt: '“江南可采莲，莲叶何田田。”\n江南可以做什么？', image: '🪷', answer: '采莲', detail: '“可采莲”就是可以去采莲。', choices: ['采莲', '钓鱼', '划船'] },
+    { id: 'g1-read-boat', category: '一上·课文', prompt: '“弯弯的月儿小小的船，小小的船儿两头尖。”\n这句话把月儿比作什么？', image: '🌙', answer: '小船', detail: '因为弯弯的月儿形状像小船。', choices: ['香蕉', '小船', '镰刀'] },
+    { id: 'g1-read-shadow', category: '一上·课文', prompt: '“影子在前，影子在后，影子常常跟着我。”\n影子有什么特点？', image: '🕶️', answer: '常常跟着我', detail: '短文说影子“常常跟着我”。', choices: ['常常跟着我', '只有早上出现', '会自己跑掉'] },
+    { id: 'g1-read-crow', category: '一上·课文', prompt: '乌鸦把石子一颗一颗放进瓶里，最后喝到了水。\n乌鸦用什么办法喝到水？', image: '🐦‍⬛', answer: '把石子放进瓶里，让水面升高', detail: '石子占去瓶里的空间，水面慢慢升高。', choices: ['把石子放进瓶里，让水面升高', '把瓶子推倒', '把水倒在石子上'] },
+    { id: 'g1-read-tail', category: '一上·课文', prompt: '“谁的尾巴长？猴子的尾巴长。”\n谁的尾巴长？', image: '🐒', answer: '猴子', detail: '第二句直接回答了“猴子”。', choices: ['兔子', '猴子', '松鼠'] }
   ]),
   subject('g1-math', '数学计算', '🔢', '#4e91c5', '#eaf5ff', '20 以内计算、数序和比较', [
     { id: 'g1-math-add', category: '20 以内加法', prompt: '8 + 7 = ?', image: '🧮', answer: '15', detail: '可以把 7 分成 2 和 5，8 + 2 = 10，再加 5 得 15。', choices: ['14', '15', '16'] },
@@ -29,7 +41,13 @@ export const grade1Subjects = [
     { id: 'g1-math-compare', category: '比较', prompt: '9 + 4 ○ 15', image: '⚖️', answer: '<', detail: '9 + 4 = 13，13 小于 15。', choices: ['<', '=', '>'] },
     { id: 'g1-math-missing', category: '填空', prompt: '（　）+ 5 = 12', image: '🧩', answer: '7', detail: '用 12 减 5，得到 7。', choices: ['6', '7', '8'] },
     { id: 'g1-math-tens', category: '100 以内数', prompt: '46 由几个十和几个一组成？', image: '💯', answer: '4 个十和 6 个一', detail: '46 的十位是 4，个位是 6。', choices: ['4 个十和 6 个一', '6 个十和 4 个一', '4 个十和 4 个一'] },
-    { id: 'g1-math-mental', category: '口算', prompt: '30 + 20 = ?', image: '⚡', answer: '50', detail: '3 个十加 2 个十，是 5 个十。', choices: ['40', '50', '60'] }
+    { id: 'g1-math-mental', category: '口算', prompt: '30 + 20 = ?', image: '⚡', answer: '50', detail: '3 个十加 2 个十，是 5 个十。', choices: ['40', '50', '60'] },
+    { id: 'g1-math-compose5', category: '一上·5以内', prompt: '5 可以分成 2 和（　）。', image: '🖐️', answer: '3', detail: '2 + 3 = 5。', choices: ['2', '3', '4'] },
+    { id: 'g1-math-count-n', category: '一上·数数', prompt: '从 7 接着数到 11，一共数了几个数？', image: '🔢', answer: '5', detail: '7、8、9、10、11，一共 5 个数。', choices: ['4', '5', '6'] },
+    { id: 'g1-math-carry9', category: '一上·进位加法', prompt: '9 + 6 = ?', image: '🧮', answer: '15', detail: '凑十法：9 + 1 = 10，10 + 5 = 15。', choices: ['14', '15', '16'] },
+    { id: 'g1-math-carry7', category: '一上·进位加法', prompt: '7 + 8 = ?', image: '🧮', answer: '15', detail: '可以凑十：7 + 3 = 10，10 + 5 = 15。', choices: ['14', '15', '16'] },
+    { id: 'g1-math-ten-more', category: '一上·11~20', prompt: '一个数比 10 多 6，这个数是几？', image: '🎯', answer: '16', detail: '10 + 6 = 16。', choices: ['15', '16', '17'] },
+    { id: 'g1-math-equal12', category: '一上·计算', prompt: '哪道算式的结果等于 12？', image: '🧮', answer: '7 + 5', detail: '7 + 5 = 12，6 + 5 = 11，8 + 3 = 11。', choices: ['7 + 5', '6 + 5', '8 + 3'] }
   ]),
   subject('g1-application', '数学应用', '📐', '#8a78b8', '#f1edff', '钟表、人民币、图形和应用题', [
     { id: 'g1-app-time', category: '认识时间', prompt: '分针指向 12，时针指向 7，是几时？', image: '🕖', answer: '7 时', detail: '分针指向 12 表示整时，时针指向几就是几时。', choices: ['6 时', '7 时', '12 时'] },
@@ -39,7 +57,13 @@ export const grade1Subjects = [
     { id: 'g1-app-sub', category: '应用题', prompt: '小红有 16 张卡片，送给同学 7 张，还剩多少张？', image: '🃏', answer: '9 张', detail: '“送给”后数量变少，用减法：16 减 7 等于 9。', choices: ['8 张', '9 张', '10 张'] },
     { id: 'g1-app-difference', category: '相差问题', prompt: '明明吃了 8 颗草莓，乐乐吃了 5 颗。明明比乐乐多吃几颗？', image: '🍓', answer: '3 颗', detail: '求两个数相差多少，用减法：8 减 5 等于 3。', choices: ['2 颗', '3 颗', '4 颗'] },
     { id: 'g1-app-position', category: '位置', prompt: '小军的左边是小丽，右边是小强。谁在小军右边？', image: '🧒🧒🧒', answer: '小强', detail: '题目已经告诉我们“右边是小强”。', choices: ['小丽', '小军', '小强'] },
-    { id: 'g1-app-plan', category: '解决问题', prompt: '要给 12 位同学每人发 1 支笔，现在只有 9 支，还差几支？', image: '✏️', answer: '3 支', detail: '用需要的 12 支减去已有的 9 支，还差 3 支。', choices: ['2 支', '3 支', '4 支'] }
+    { id: 'g1-app-plan', category: '解决问题', prompt: '要给 12 位同学每人发 1 支笔，现在只有 9 支，还差几支？', image: '✏️', answer: '3 支', detail: '用需要的 12 支减去已有的 9 支，还差 3 支。', choices: ['2 支', '3 支', '4 支'] },
+    { id: 'g1-app-left-right', category: '一上·位置', prompt: '小华坐在小明的左边。小明坐在小华的（　）边。', image: '🧒🧒', answer: '右边', detail: '位置是相对的：小华在小明左边，小明就在小华右边。', choices: ['左边', '右边', '前面'] },
+    { id: 'g1-app-ball', category: '一上·认识图形', prompt: '下面哪种物体最容易滚动？', image: '⚽', answer: '球', detail: '球的表面是曲面，可以向不同方向滚动。', choices: ['长方体', '正方体', '球'] },
+    { id: 'g1-app-half', category: '一上·认识钟表', prompt: '时针刚过 8，分针指向 6，这时大约是几时？', image: '🕣', answer: '8 时半', detail: '分针指向 6 表示半时，时针刚过 8，所以是 8 时半。', choices: ['8 时半', '8 时整', '9 时整'] },
+    { id: 'g1-app-front', category: '一上·第几', prompt: '从前往后数，小明排第 5。他前面有几人？', image: '🚶', answer: '4 人', detail: '排第 5 表示他前面有 4 个人。', choices: ['3 人', '4 人', '5 人'] },
+    { id: 'g1-app-parking', category: '一上·应用题', prompt: '停车场原来有 8 辆车，又开来 7 辆，现在一共有几辆？', image: '🚗', answer: '15 辆', detail: '求一共用加法：8 + 7 = 15。', choices: ['14 辆', '15 辆', '16 辆'] },
+    { id: 'g1-app-more-candy', category: '一上·比多少', prompt: '小明有 11 块糖，小丽有 7 块。小明比小丽多几块？', image: '🍬', answer: '4 块', detail: '求相差多少用减法：11 − 7 = 4。', choices: ['3 块', '4 块', '5 块'] }
   ]),
   subject('g1-english', '英语启蒙', '🌍', '#558d73', '#eaf6ef', '校园单词、简单问候和短句', [
     { id: 'g1-en-book', category: '学习用品', prompt: 'book', pinyin: '/bʊk/', image: '📘', answer: '书', detail: 'This is my book. 这是我的书。', speak: 'book', lang: 'en-US', choices: ['书', '铅笔', '书包'] },
@@ -59,7 +83,11 @@ export const grade1Subjects = [
     { id: 'g1-sci-magnet', category: '材料', prompt: '磁铁能吸引下面哪件物品？', image: '🧲', answer: '铁订', detail: '磁铁能吸引铁、镍等一些金属材料。', choices: ['木块', '铁订', '塑料尺'] },
     { id: 'g1-sci-water', category: '水', prompt: '把水放进不同形状的杯子，水的形状会怎样？', image: '💧', answer: '随容器改变', detail: '水会流动，没有固定形状，会呈现容器的形状。', choices: ['始终是圆形', '随容器改变', '一定变成冰'] },
     { id: 'g1-sci-body', category: '健康', prompt: '运动后心跳为什么会加快？', image: '❤️', answer: '身体需要更多氧气和能量', detail: '心脏跳得更快，能把富含氧气的血液更快送到全身。', choices: ['身体需要更多氧气和能量', '心脏累了', '因为天变冷了'] },
-    { id: 'g1-sci-safety', category: '安全', prompt: '闻到家里有很重的煤气味，首先应该怎么做？', image: '⚠️', answer: '远离现场并告诉大人', detail: '不要开灯、点火或自己处理，要迅速到安全的地方求助大人。', choices: ['马上开灯查看', '远离现场并告诉大人', '划一根火柴'] }
+    { id: 'g1-sci-safety', category: '安全', prompt: '闻到家里有很重的煤气味，首先应该怎么做？', image: '⚠️', answer: '远离现场并告诉大人', detail: '不要开灯、点火或自己处理，要迅速到安全的地方求助大人。', choices: ['马上开灯查看', '远离现场并告诉大人', '划一根火柴'] },
+    { id: 'g1-sci-autumn-leaf', category: '季节', prompt: '秋天到了，许多树的叶子会怎样变化？', image: '🍂', answer: '变黄并落下', detail: '秋天天气转凉，很多阔叶树的叶子会变色脱落。', choices: ['变黄并落下', '一直保持绿色', '开满鲜花'] },
+    { id: 'g1-sci-eyes', category: '身体', prompt: '我们用眼睛主要能观察什么？', image: '👀', answer: '颜色、形状和大小', detail: '眼睛帮助我们看见物体的颜色、形状、大小等。', choices: ['颜色、形状和大小', '声音的高低', '味道的咸甜'] },
+    { id: 'g1-sci-plant-need', category: '植物', prompt: '大多数绿色植物生长离不开什么？', image: '🌻', answer: '阳光、水和空气', detail: '阳光、水和空气是植物生长的重要条件。', choices: ['阳光、水和空气', '石头和塑料', '只有黑夜'] },
+    { id: 'g1-sci-cross', category: '安全', prompt: '过马路时，下面哪种做法更安全？', image: '🚸', answer: '看红绿灯，从斑马线通过', detail: '过马路要走斑马线，并注意观察来往车辆。', choices: ['看红绿灯，从斑马线通过', '在马路上追跑', '翻越护栏'] }
   ]),
   subject('g1-logic', '逻辑思维', '🧩', '#c28846', '#fff3dc', '找规律、排顺序、辨方位', [
     { id: 'g1-log-pattern', category: '规律', prompt: '2，4，6，8，（　）', image: '🔍', answer: '10', detail: '每次增加 2。', choices: ['9', '10', '12'] },
@@ -69,7 +97,11 @@ export const grade1Subjects = [
     { id: 'g1-log-classify', category: '分类', prompt: '铅笔、尺子、橡皮、苹果中，不是同一类的是什么？', image: '🍎', answer: '苹果', detail: '前三样是学习用品，苹果是水果。', choices: ['铅笔', '橡皮', '苹果'] },
     { id: 'g1-log-infer', category: '推理', prompt: '小明比小红高，小红比小丽高。谁最高？', image: '📏', answer: '小明', detail: '小明＞小红＞小丽，所以小明最高。', choices: ['小明', '小红', '小丽'] },
     { id: 'g1-log-route', category: '路线', prompt: '从家向前走，在第一个路口向右转，最可能先看到什么？\n家 ↑ 路口 → 书店', image: '🗺️', answer: '书店', detail: '按照“向前、右转”的路线，会到达书店。', choices: ['书店', '家', '路口后方'] },
-    { id: 'g1-log-riddle', category: '条件推理', prompt: '盒子里只有红球和蓝球。拿出的不是红球，那一定是什么球？', image: '🔴🔵', answer: '蓝球', detail: '只有两种可能，排除红球后就只剩蓝球。', choices: ['红球', '蓝球', '黄球'] }
+    { id: 'g1-log-riddle', category: '条件推理', prompt: '盒子里只有红球和蓝球。拿出的不是红球，那一定是什么球？', image: '🔴🔵', answer: '蓝球', detail: '只有两种可能，排除红球后就只剩蓝球。', choices: ['红球', '蓝球', '黄球'] },
+    { id: 'g1-log-count5', category: '规律', prompt: '5，10，15，20，（　）', image: '🔍', answer: '25', detail: '每次增加 5。', choices: ['22', '25', '30'] },
+    { id: 'g1-log-stationery', category: '分类', prompt: '下面哪一组都是学习用品？', image: '🎒', answer: '铅笔、橡皮、尺子', detail: '铅笔、橡皮、尺子都是学习用品。', choices: ['铅笔、橡皮、尺子', '苹果、香蕉、梨', '雨伞、帽子、手套'] },
+    { id: 'g1-log-height', category: '推理', prompt: '小雨比小云高，小云比小风高。谁最矮？', image: '📏', answer: '小风', detail: '小雨＞小云＞小风，所以小风最矮。', choices: ['小雨', '小云', '小风'] },
+    { id: 'g1-log-line', category: '排队', prompt: '小明前面有 3 人，后面有 2 人。这一队一共有几人？', image: '🧑‍🤝‍🧑', answer: '6 人', detail: '3 + 2 + 1 = 6，别忘了加上小明自己。', choices: ['5 人', '6 人', '7 人'] }
   ])
 ];
 
